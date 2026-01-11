@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Вход в систему</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #fcfcfc;
+        color: #222;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+
+      .login-container {
+        background: #fff;
+        padding: 40px 50px;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        width: 100%;
+        max-width: 380px;
+      }
+
+      h1 {
+        margin: 0 0 30px 0;
+        font-size: 24px;
+        font-weight: 600;
+        text-align: center;
+        color: #222;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+      }
+
+      input[type='text'],
+      input[type='password'] {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+        transition: border 0.2s;
+      }
+
+      input[type='text']:focus,
+      input[type='password']:focus {
+        outline: none;
+        border-color: #999;
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        background-color: #222;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 600;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      button:hover {
+        background-color: #000;
+      }
+
+      .error {
+        margin-top: 15px;
+        color: #d32f2f;
+        font-size: 14px;
+        text-align: center;
+        display: none;
+      }
+
+      .success {
+        margin-top: 15px;
+        color: #2e7d32;
+        font-size: 14px;
+        text-align: center;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <h1>Вход в систему</h1>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="login">Логин</label>
+          <input
+            type="text"
+            id="login"
+            name="login"
+            required
+            autocomplete="username"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Пароль</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            required
+            autocomplete="current-password"
+          />
+        </div>
+
+        <button type="submit">Войти</button>
+      </form>
+
+      <div class="error" id="errorMsg"></div>
+      <div class="success" id="successMsg"></div>
+    </div>
+
+    <script>
+      localStorage.removeItem('token');
+      localStorage.removeItem('role');
+
+      const form = document.getElementById('loginForm');
+      const errorDiv = document.getElementById('errorMsg');
+      const successDiv = document.getElementById('successMsg');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Сбрасываем сообщения
+        errorDiv.style.display = 'none';
+        successDiv.style.display = 'none';
+        errorDiv.textContent = '';
+        successDiv.textContent = '';
+
+        const login = document.getElementById('login').value.trim();
+        const password = document.getElementById('password').value;
+
+        const payload = {
+          login: login,
+          password: password,
+        };
+
+        try {
+          const response = await fetch('/auth/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+            credentials: 'include',
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('role', data.role);
+
+            successDiv.textContent = 'Успешный вход! Перенаправление…';
+            successDiv.style.display = 'block';
+
+            setTimeout(() => {
+              window.location.href = '/form';
+            }, 800);
+          } else {
+            errorDiv.textContent = data.message || 'Неверный логин или пароль';
+            errorDiv.style.display = 'block';
+          }
+        } catch (err) {
+          console.error(err);
+          errorDiv.textContent = 'Ошибка соединения с сервером';
+          errorDiv.style.display = 'block';
+        }
+      });
+    </script>
+  </body>
+</html>

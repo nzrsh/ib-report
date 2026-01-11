@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/static/styles/header.css" />
+  <link rel="stylesheet" href="/static/styles/details.css" />
+  <link rel="stylesheet" href="/static/styles/main.css" />
+  <title>Событие</title>
+</head>
+<body>
+<header>
+  <div class="logo">IB report</div>
+  <nav>
+    <ul>
+      <li><a href="/form">Создание отчёта</a></li>
+      <li><a href="/event-table" class="active">Список событий</a></li>
+      <li><a href="/incident-table/none">Список инцидентов</a></li>
+      <li id="userslist"><a href="/users-table">Пользователи</a></li>
+      <li><a href="/login">Выход</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <h1>Событие <span id="event-number">—</span></h1>
+
+  <!-- Общая информация -->
+  <section>
+    <h2>Общая информация</h2>
+    <dl>
+      <dt>ID</dt>                  <dd id="id">—</dd>
+      <dt>Номер события</dt>       <dd id="number">—</dd>
+      <dt>Дата события</dt>        <dd id="date">—</dd>
+      <dt>Организация</dt>         <dd id="organization">—</dd>
+      <dt>ФИО сообщающего</dt>     <dd id="surname">—</dd>
+      <dt>Адрес</dt>               <dd id="address">—</dd>
+      <dt>Телефон</dt>             <dd id="phoneNumber">—</dd>
+      <dt>Электронная почта</dt>   <dd id="mail">—</dd>
+    </dl>
+  </section>
+
+  <!-- Временные метки -->
+  <section>
+    <h2>Временные метки</h2>
+    <dl>
+      <dt>Начало события</dt>      <dd id="start">—</dd>
+      <dt>Обнаружение</dt>         <dd id="detect">—</dd>
+      <dt>Сообщение о событии</dt> <dd id="end">—</dd>
+      <dt>Длительность</dt>        <dd id="eventDuration">—</dd>
+      <dt>Завершено?</dt>          <dd id="isEventResolved">—</dd>
+    </dl>
+  </section>
+
+  <!-- Описание и последствия -->
+  <section>
+    <h2>Описание и последствия</h2>
+    <dl>
+      <dt>Что произошло</dt>              <dd id="happened">—</dd>
+      <dt>Как произошло</dt>              <dd id="happenedCause">—</dd>
+      <dt>Почему произошло</dt>           <dd id="rootCause">—</dd>
+      <dt>Поражённые компоненты</dt>      <dd id="affectedComponents">—</dd>
+      <dt>Идентифицированные уязвимости</dt><dd id="identifiedVulnerabilities">—</dd>
+      <dt>Негативное воздействие на бизнес</dt><dd id="businessImpact">—</dd>
+    </dl>
+  </section>
+</main>
+
+<script src="/static/scripts/event-details.js"></script>
+<script src="/static/scripts/hidden-content.js"></script>
+</body>
+</html>

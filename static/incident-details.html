@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/static/styles/header.css" />
+<link rel="stylesheet" href="/static/styles/details.css" />
+<link rel="stylesheet" href="/static/styles/main.css" />
+<title>Инцидент</title>
+</head>
+<body>
+<header>
+  <div class="logo">IB report</div>
+  <nav>
+    <ul>
+      <li><a href="/form">Создание отчёта</a></li>
+      <li><a href="/event-table">Список событий</a></li>
+      <li><a href="/incident-table/none" class="active">Список инцидентов</a></li>
+      <li id="userslist"><a href="/users-table">Пользователи</a></li>
+      <li><a href="/login">Выход</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <h1>Инцидент <span id="incident-number">—</span></h1>
+
+  <!-- Основные данные -->
+  <section>
+    <h2>Общая информация</h2>
+    <dl>
+      <dt>ID</dt><dd id="id">—</dd>
+      <dt>Номер инцидента</dt><dd id="incidentNumber">—</dd>
+      <dt>Дата инцидента</dt><dd id="incidentDate">—</dd>
+    </dl>
+  </section>
+
+  <!-- Сотрудники -->
+  <section>
+    <h2>Сотрудник группы эксплуатации</h2>
+    <dl>
+      <dt>ФИО</dt><dd id="operationSurname">—</dd>
+      <dt>Адрес</dt><dd id="operationAddress">—</dd>
+      <dt>Телефон</dt><dd id="operationPhone">—</dd>
+      <dt>Email</dt><dd id="operationEmail">—</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>Сотрудник ГРИИБ</h2>
+    <dl>
+      <dt>ФИО</dt><dd id="griibSurname">—</dd>
+      <dt>Адрес</dt><dd id="griibAddress">—</dd>
+      <dt>Телефон</dt><dd id="griibPhone">—</dd>
+      <dt>Email</dt><dd id="griibEmail">—</dd>
+    </dl>
+  </section>
+
+  <!-- Описание -->
+  <section>
+    <h2>Описание инцидента</h2>
+    <dl>
+      <dt>Что произошло</dt><dd id="whatHappened">—</dd>
+      <dt>Как произошло</dt><dd id="howHappened">—</dd>
+      <dt>Почему произошло</dt><dd id="whyHappened">—</dd>
+      <dt>Поражённые компоненты</dt><dd id="affectedComponents">—</dd>
+      <dt>Негативное воздействие на бизнес</dt><dd id="businessImpact">—</dd>
+      <dt>Выявленные уязвимости</dt><dd id="identifiedVulnerabilities">—</dd>
+    </dl>
+  </section>
+
+  <!-- Временные метки -->
+  <section>
+    <h2>Временные метки</h2>
+    <dl>
+      <dt>Начало инцидента</dt><dd id="startDateTime">—</dd>
+      <dt>Обнаружение</dt><dd id="detectDateTime">—</dd>
+      <dt>Сообщение</dt><dd id="reportDateTime">—</dd>
+    </dl>
+  </section>
+
+  <!-- Классификация -->
+  <section>
+    <h2>Классификация инцидента</h2>
+    <dl>
+      <dt>Характер угрозы</dt><dd id="typeOption1">—</dd>
+      <dt>Тип угрозы</dt><dd id="typeOption2">—</dd>
+      <dt>Тип инцидента</dt><dd id="incidentType">—</dd>
+      <dt>Затронутая информация</dt><dd id="information">—</dd>
+      <dt>Аппаратные средства</dt><dd id="hardware">—</dd>
+      <dt>Программное обеспечение</dt><dd id="software">—</dd>
+      <dt>Средства связи</dt><dd id="communicationMeans">—</dd>
+      <dt>Документация</dt><dd id="documentation">—</dd>
+      <dt>Негативное воздействие</dt><dd id="negativeImpact">—</dd>
+    </dl>
+  </section>
+
+  <!-- Негативные издержки (новый блок) -->
+  <section>
+    <h2>Негативные издержки</h2>
+    <dl>
+      <dt>Значимость</dt><dd id="negativeNumber">—</dd>
+      <dt>Указатель</dt><dd id="negativePointer">—</dd>
+      <dt>Описание издержек</dt><dd id="negativeIssues">—</dd>
+    </dl>
+  </section>
+
+  <!-- Разрешение -->
+  <section>
+    <h2>Разрешение инцидента</h2>
+    <dl>
+      <dt>Инцидент завершён?</dt><dd id="isIncidentResolved">—</dd>
+      <dt>Начало расследования</dt><dd id="investigationStartDate">—</dd>
+      <dt>Расследователи</dt><dd id="investigators">—</dd>
+      <dt>Дата окончания инцидента</dt><dd id="incidentEndDate">—</dd>
+      <dt>Дата устранения последствий</dt><dd id="impactEndDate">—</dd>
+      <dt>Дата завершения расследования</dt><dd id="investigationEndDate">—</dd>
+      <dt>Место хранения отчёта</dt><dd id="investigationReportLocation">—</dd>
+    </dl>
+  </section>
+
+  <!-- Нарушитель -->
+  <section>
+    <h2>Нарушитель</h2>
+    <dl>
+      <dt>Тип нарушителя</dt><dd id="violatorType">—</dd>
+      <dt>Описание нарушителя</dt><dd id="violatorDescription">—</dd>
+      <dt>Мотивация</dt><dd id="violatorMotivation">—</dd>
+    </dl>
+  </section>
+
+  <!-- Действия -->
+  <section>
+    <h2>Действия по разрешению</h2>
+    <dl>
+      <dt>Выполненные действия</dt><dd id="resolutionActions">—</dd>
+      <dt>Планируемые действия</dt><dd id="plannedResolutionActions">—</dd>
+      <dt>Прочие действия</dt><dd id="otherActions">—</dd>
+    </dl>
+  </section>
+</main>
+
+<script src="/static/scripts/incident-details.js"></script>
+<script src="/static/scripts/hidden-content.js"></script>
+</body>
+</html>

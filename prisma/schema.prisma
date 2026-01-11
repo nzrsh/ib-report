@@ -1,0 +1,212 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// ─────────────────────────────────────────────────────────────
+// Существующие enum (без изменений)
+enum IncidentType {
+  хищение
+  хакерство
+  мошенничество
+  неправильное_использование_ресурсов
+  саботаж
+  иное_намеренное
+  отказ_аппаратуры
+  отказ_ПО
+  другие_природные_события
+  отказ_системы_связи
+  потеря_значимых_сервисов
+  пожар
+  недостаточное_кадровое_обеспечение
+  другие_случайные_случаи
+  операционная_ошибка
+  ошибка_пользователя
+  ошибка_в_эксплуатации_аппаратных_средств
+  ошибка_проектирования
+  ошибка_в_эксплуатации
+  другие_случаи_ошибок
+}
+
+enum NegativeImpact {
+  нарушение_конфиденциальности
+  нарушение_целостности
+  нарушение_доступности
+  нарушение_неотказуемости
+  уничтожение
+  значимость_указатели
+}
+
+enum ViolatorType {
+  PE @map("PE Лицо")
+  OI @map("OI Организация/учреждение")
+  GR @map("GR Организованная группа")
+  AC @map("AC Случайность")
+  NP @map("NP Отсутствие нарушителя")
+}
+
+enum ViolatorMotivation {
+  CG @map("CG Криминальная/финансовая выгода")
+  PH @map("PH Развлечение/хакерство")
+  PT @map("PT Политика/терроризм")
+  RE @map("RE Месть")
+  OM @map("OM Другие мотивы")
+}
+
+enum Role {
+  admin
+  user
+}
+
+// ─────────────────────────────────────────────────────────────
+// Новые enum для полей typeOption1 и typeOption2
+
+enum IncidentReality {
+  Действительный
+  Попытка
+  Предполагаемый
+}
+
+enum IncidentIntent {
+  Намеренная
+  Случайная
+  Ошибка
+  Неизвестно
+}
+
+enum NegativePointer {
+  FD
+  CE
+  PI
+  LR
+  MO
+  LG
+}
+
+// ─────────────────────────────────────────────────────────────
+// Модели
+
+model User {
+  id       Int    @id @default(autoincrement())
+  login    String @unique
+  name     String?
+  password String
+  role     Role
+}
+
+model Event {
+  id                     Int      @id @default(autoincrement())
+  date                   String
+  number                 String   @unique
+  surname                String?
+  address                String
+  phoneNumber            String
+  mail                   String?
+  happened               String
+  happenedCause          String?
+  rootCause              String
+  affectedComponents     String
+  businessImpact         String
+  identifiedVulnerabilities String
+  isEventResolved        Boolean
+  eventDuration          String?
+  start                  String?
+  detect                 String?
+  end                    String?
+  
+  // Новое поле
+  organization           String?   // название организации или её код/идентификатор
+
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @default(now()) @updatedAt
+
+  @@map("event")
+}
+
+model Incident {
+  id                        Int                @id @default(autoincrement())
+
+  // Основные данные
+  incidentDate              String?
+  incidentNumber            String?
+
+  // Сотрудник группы обеспечения эксплуатации
+  operationSurname          String?
+  operationAddress          String?
+  operationPhone            String?
+  operationEmail            String?
+
+  // Сотрудник ГРИИБ
+  griibSurname              String?
+  griibAddress              String?
+  griibPhone                String?
+  griibEmail                String?
+
+  // Описание инцидента
+  whatHappened              String?
+  howHappened               String?
+  whyHappened               String?
+  affectedComponents        String?
+  businessImpact            String?
+  identifiedVulnerabilities String?
+
+  // Временные метки
+  startDateTime             String?
+  detectDateTime            String?
+  reportDateTime            String?
+
+  // Статус
+  isIncidentResolved        Boolean?
+
+  // Тип инцидента
+  incidentType              IncidentType?
+
+  // Информация (что пострадало)
+  information               String?
+  hardware                  String?
+  software                  String?
+  communicationMeans        String?
+  documentation             String?
+
+  // Негативное воздействие
+  negativeImpact            NegativeImpact?
+
+  // ─────── Новые поля ───────
+  typeOption1               IncidentReality?      // Действительный / Попытка / Предполагаемый
+  typeOption2               IncidentIntent?       // Намеренная / Случайная / Ошибка / Неизвестно
+  negativeNumber            String?                  // 1–10
+  negativePointer           NegativePointer?      // FD, CE, PI, LR, MO, LG
+  negativeIssues            String?               // текстовое поле
+
+  // ─────── Разрешение инцидента ───────
+  investigationStartDate    String?
+  investigators             String?
+  incidentEndDate           String?
+  impactEndDate             String?
+  investigationEndDate      String?
+  investigationReportLocation String?
+
+  // Причастные лица / нарушители
+  violatorType              ViolatorType?
+  violatorDescription       String?
+
+  // Мотивация
+  violatorMotivation        ViolatorMotivation?
+
+  // Действия по разрешению
+  resolutionActions         String?
+  plannedResolutionActions  String?
+  otherActions              String?
+
+  // Служебные поля
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @default(now()) @updatedAt
+
+  @@map("incident")
+}

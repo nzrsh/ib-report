@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/styles/header.css" />
+    <link rel="stylesheet" href="/static/styles/main.css" />
+    <link rel="stylesheet" href="/static/styles/table.css" />
+    <title>Инциденты</title>
+  </head>
+  <body>
+    <header>
+      <div class="logo">IB report</div>
+
+      <nav>
+        <ul>
+          <li>
+            <a href="/form">Создание отчёта</a>
+          </li>
+          <li>
+            <a href="/event-table">Список событий</a>
+          </li>
+          <li>
+            <a href="/incident-table/none" class="active">Список инцидентов</a>
+          </li>
+          <li id="userslist">
+            <a href="/users-table">Пользователи</a>
+          </li>
+          <li>
+            <a href="/login">Выход</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <h1>Список инцидентов</h1>
+
+    <select>
+      <option value="none">Выбрать тип</option>
+      <option value="хакерство">хакерство</option>
+      <option value="мошенничество">мошенничество</option>
+      <option value="неправильное_использование_ресурсов">
+        неправильное использование ресурсов
+      </option>
+      <option value="саботаж">саботаж</option>
+      <option value="иное_намеренное">иное намеренное</option>
+      <option value="отказ_аппаратуры">отказ аппаратуры</option>
+      <option value="отказ_ПО">отказ ПО</option>
+      <option value="другие_природные_события">другие природные события</option>
+      <option value="отказ_системы_связи">отказ системы связи</option>
+      <option value="потеря_значимых_сервисов">потеря значимых сервисов</option>
+      <option value="пожар">пожар</option>
+      <option value="недостаточное_кадровое_обеспечение">
+        недостаточное кадровое обеспечение
+      </option>
+      <option value="другие_случайные_случаи">другие случайные случаи</option>
+      <option value="операционная_ошибка">операционная ошибка</option>
+      <option value="ошибка_пользователя">ошибка пользователя</option>
+      <option value="ошибка_в_эксплуатации_аппаратных_средств">
+        ошибка в эксплуатации аппаратных средств
+      </option>
+      <option value="ошибка_проектирования">ошибка проектирования</option>
+      <option value="ошибка_в_эксплуатации">ошибка в эксплуатации</option>
+      <option value="другие_случаи_ошибок">другие случаи ошибок</option>
+    </select>
+
+    <table border="1" cellpadding="5" cellspacing="0" id="incidentsTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Дата инцидента</th>
+          <th>Номер</th>
+          <th>ФИО (эксплуатация)</th>
+          <th>Адрес (экспл.)</th>
+          <th>ФИО (ГРИИБ)</th>
+          <th>Адрес (ГРИИБ)</th>
+          <th>Решён</th>
+          <th>PDF</th>
+          <th>Тип</th>
+          <th>Подробнее</th>
+        </tr>
+      </thead>
+      <tbody id="incidentsBody"></tbody>
+    </table>
+
+    <div id="pagination" style="margin-top: 20px">
+      <button id="prevBtn">Предыдущая</button>
+      <span id="pageInfo"></span>
+      <button id="nextBtn">Следующая</button>
+    </div>
+
+    <script src="/static/scripts/incident-table.js"></script>
+    <script src="/static/scripts/hidden-content.js"></script>
+    <script>
+      const select = document.querySelector('select');
+      const rawValue = window.location.pathname.split('/').pop();
+      const currentValue = decodeURIComponent(rawValue);
+      const matchFound = [...select.options].some(
+        (opt) => opt.value === currentValue,
+      );
+
+      if (matchFound) {
+        select.value = currentValue;
+      } else {
+        select.value = 'none';
+      }
+
+      select.addEventListener('change', () => {
+        const value = select.value;
+        window.location.href = `/incident-table/${encodeURIComponent(value)}`;
+      });
+    </script>
+  </body>
+</html>
